@@ -45,12 +45,12 @@ ART_H = ROWS * CELL_H
 CANVAS_W = ART_W + PAD * 2
 CANVAS_H = TITLEBAR_H + ART_H + STATUS_H + PAD
 
-BG = "#0d1117"
-BG2 = "#111722"
-FRAME = "#30363d"
-TITLE_TEXT = "#7d8590"
-INK = "#c9d1d9"      # the single ascii color (matches Andrew6rant)
-CURSOR = "#c9d1d9"
+BG = "#ffffff"
+BG2 = "#f6f8fa"
+FRAME = "#d0d7de"
+TITLE_TEXT = "#57606a"
+INK = "#24292f"      # the single ascii color (matches Andrew6rant)
+CURSOR = "#24292f"
 
 # ---- reveal timing (one-shot; a cursor rasters top -> bottom) -------------
 ROW_DUR = 0.11
@@ -103,7 +103,7 @@ parts.append(f'<line x1="0" y1="{TITLEBAR_H}" x2="{CANVAS_W}" y2="{TITLEBAR_H}" 
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
-             f'text-anchor="middle">avi@github: ~$ ./portrait.sh</text>')
+             f'text-anchor="middle">Alexey Konyaev</text>')
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
@@ -138,7 +138,7 @@ status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
 parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
-             f'avi@github:~$ whoami <tspan fill="{INK}">Avi Vashishta</tspan></text>')
+             f'Alexey Konyaev</text>')
 parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')

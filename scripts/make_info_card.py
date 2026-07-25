@@ -21,15 +21,15 @@ KEY_X = PAD
 VAL_X = PAD + 92
 LINE_H = 20.5
 
-BG = "#0d1117"
-BG2 = "#111722"
-FRAME = "#30363d"
-MUTED = "#7d8590"
-INK = "#c9d1d9"
-KEY = "#ffa657"      # orange keys (matches Andrew)
-SECTION = "#58a6ff"  # blue section headers
-GREEN = "#3fb950"
-ACCENT = "#22d3ee"
+BG = "#ffffff"
+BG2 = "#f6f8fa"
+FRAME = "#d0d7de"
+MUTED = "#57606a"
+INK = "#24292f"
+KEY = "#b07d00"      # orange keys (matches Andrew)
+SECTION = "#0969da"  # blue section headers
+GREEN = "#1a7f37"
+ACCENT = "#0550ae"
 
 # content model: tuples describing each row
 # ("host",)                    -> "avi@github" + rule
@@ -82,7 +82,7 @@ parts = [
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{W/2}" y="{TITLEBAR_H/2 + 4}" fill="{MUTED}" font-size="12" '
-             f'text-anchor="middle">akonyaev@github: ~$ neofetch</text>')
+             f'text-anchor="middle">About</text>')
 
 y = TITLEBAR_H + 30
 for i, row in enumerate(ROWS):
