@@ -45,12 +45,12 @@ ART_H = ROWS * CELL_H
 CANVAS_W = ART_W + PAD * 2
 CANVAS_H = TITLEBAR_H + ART_H + STATUS_H + PAD
 
-BG = "#ffffff"
-BG2 = "#f6f8fa"
-FRAME = "#d0d7de"
-TITLE_TEXT = "#57606a"
-INK = "#24292f"      # the single ascii color (matches Andrew6rant)
-CURSOR = "#24292f"
+BG = "var(--bg)"
+BG2 = "var(--bg2)"
+FRAME = "var(--frame)"
+TITLE_TEXT = "var(--title-text)"
+INK = "var(--ink)"
+CURSOR = "var(--cursor)"
 
 # ---- reveal timing (one-shot; a cursor rasters top -> bottom) -------------
 ROW_DUR = 0.11
@@ -90,6 +90,28 @@ parts.append(
     f'viewBox="0 0 {CANVAS_W} {CANVAS_H}" font-family="ui-monospace, SFMono-Regular, '
     f'Menlo, Consolas, monospace">'
 )
+parts.append('''
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f6f8fa;
+    --frame: #d0d7de;
+    --title-text: #57606a;
+    --ink: #24292f;
+    --cursor: #24292f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --bg2: #111722;
+      --frame: #30363d;
+      --title-text: #7d8590;
+      --ink: #c9d1d9;
+      --cursor: #c9d1d9;
+    }
+  }
+</style>
+''')
 parts.append('<defs>'
              f'<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">'
              f'<stop offset="0" stop-color="{BG2}"/><stop offset="1" stop-color="{BG}"/>'

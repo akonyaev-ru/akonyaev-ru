@@ -21,15 +21,15 @@ KEY_X = PAD
 VAL_X = PAD + 92
 LINE_H = 20.5
 
-BG = "#ffffff"
-BG2 = "#f6f8fa"
-FRAME = "#d0d7de"
-MUTED = "#57606a"
-INK = "#24292f"
-KEY = "#b07d00"      # orange keys (matches Andrew)
-SECTION = "#0969da"  # blue section headers
-GREEN = "#1a7f37"
-ACCENT = "#0550ae"
+BG = "var(--bg)"
+BG2 = "var(--bg2)"
+FRAME = "var(--frame)"
+MUTED = "var(--muted)"
+INK = "var(--ink)"
+KEY = "var(--key)"      # orange keys (matches Andrew)
+SECTION = "var(--section)"  # blue section headers
+GREEN = "var(--green)"
+ACCENT = "var(--accent)"
 
 # content model: tuples describing each row
 # ("host",)                    -> "avi@github" + rule
@@ -72,6 +72,32 @@ def rise(inner, i):
 parts = [
     f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
     f'font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">',
+    '''<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f6f8fa;
+    --frame: #d0d7de;
+    --muted: #57606a;
+    --ink: #24292f;
+    --key: #b07d00;
+    --section: #0969da;
+    --green: #1a7f37;
+    --accent: #0550ae;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --bg2: #111722;
+      --frame: #30363d;
+      --muted: #7d8590;
+      --ink: #c9d1d9;
+      --key: #ffa657;
+      --section: #58a6ff;
+      --green: #3fb950;
+      --accent: #22d3ee;
+    }
+  }
+</style>''',
     '<defs>'
     f'<linearGradient id="ibg" x1="0" y1="0" x2="0" y2="1">'
     f'<stop offset="0" stop-color="{BG2}"/><stop offset="1" stop-color="{BG}"/></linearGradient></defs>',

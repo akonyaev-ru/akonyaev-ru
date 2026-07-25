@@ -17,7 +17,7 @@ IN_PATH = os.path.join(HERE, "..", "data", "contributions.json")
 OUT_PATH = os.path.join(HERE, "..", "contrib-heatmap.svg")
 
 # GitHub-ish green ramp: empty -> brightest. Level 5 is a brighter neon top end.
-PALETTE = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39", "#196127"]
+PALETTE = ["var(--pal0)", "var(--pal1)", "var(--pal2)", "var(--pal3)", "var(--pal4)", "var(--pal5)"]
 
 CELL = 12
 GAP = 3
@@ -27,14 +27,14 @@ LEFT_LABEL_W = 30
 TOP_LABEL_H = 20
 TITLEBAR_H = 30
 
-BG = "#ffffff"
-BG2 = "#f6f8fa"
-FRAME = "#d0d7de"
-MUTED = "#57606a"
-TEXT = "#24292f"
-ACCENT = "#0969da"
-GREEN = "#1a7f37"
-GOLD = "#9a6700"
+BG = "var(--bg)"
+BG2 = "var(--bg2)"
+FRAME = "var(--frame)"
+MUTED = "var(--muted)"
+TEXT = "var(--text)"
+ACCENT = "var(--accent)"
+GREEN = "var(--green)"
+GOLD = "var(--gold)"
 
 # reveal timing (one-shot)
 COL_T = 0.018   # per-column delay contribution (left -> right sweep)
@@ -102,6 +102,40 @@ def render(data):
     canvas_h = TITLEBAR_H + TOP_LABEL_H + art_h + stats_h + PAD
 
     css = f"""
+:root {{
+  --bg: #ffffff;
+  --bg2: #f6f8fa;
+  --frame: #d0d7de;
+  --muted: #57606a;
+  --text: #24292f;
+  --accent: #0969da;
+  --green: #1a7f37;
+  --gold: #9a6700;
+  --pal0: #ebedf0;
+  --pal1: #9be9a8;
+  --pal2: #40c463;
+  --pal3: #30a14e;
+  --pal4: #216e39;
+  --pal5: #196127;
+}}
+@media (prefers-color-scheme: dark) {{
+  :root {{
+    --bg: #0a0e14;
+    --bg2: #0d1420;
+    --frame: #1f6feb;
+    --muted: #7d8590;
+    --text: #e6edf3;
+    --accent: #22d3ee;
+    --green: #39d353;
+    --gold: #f2cc60;
+    --pal0: #161b22;
+    --pal1: #0e4429;
+    --pal2: #006d32;
+    --pal3: #26a641;
+    --pal4: #39d353;
+    --pal5: #69f0a0;
+  }}
+}}
 @keyframes cell {{
   0%   {{ opacity: 0; transform: translateY(-6px); }}
   100% {{ opacity: 1; transform: translateY(0); }}
