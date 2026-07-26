@@ -27,7 +27,7 @@ def crop_to_icon(img):
     for y in range(height):
         for x in range(width):
             r, g, b, a = data[y * width + x]
-            if a < 10:
+            if a < 128:
                 continue
             if r > 245 and g > 245 and b > 245:
                 continue
@@ -62,17 +62,9 @@ for filename in image_files:
         
     try:
         img = Image.open(path)
-        if filename == "Obsidian.png":
-            img = crop_to_icon(img)
-            img = img.convert('RGBA')
-            img = img.resize((34, 34), Image.Resampling.LANCZOS)
-            bg = Image.new('RGBA', (50, 50), (30, 30, 30, 255))
-            bg.paste(img, (8, 8), img)
-            img = bg
-        else:
-            img = crop_to_icon(img)
-            img = img.convert('RGBA')
-            img = img.resize((50, 50), Image.Resampling.LANCZOS)
+        img = crop_to_icon(img)
+        img = img.convert('RGBA')
+        img = img.resize((50, 50), Image.Resampling.LANCZOS)
         
         # Floodfill white from corners
         ImageDraw.floodfill(img, (0, 0), (255, 255, 255, 0), thresh=20)
