@@ -16,13 +16,27 @@ src_dir = r"g:\Мой диск\Агенты\Разработчики"
 dest_dir = r"g:\Мой диск\Агенты\Разработчики\akonyaev-ru\assets"
 os.makedirs(dest_dir, exist_ok=True)
 
-def crop_to_non_white(img):
-    rgb = img.convert('RGB')
-    bg = Image.new('RGB', rgb.size, (255, 255, 255))
-    diff = ImageChops.difference(rgb, bg)
-    bbox = diff.getbbox()
-    if bbox:
-        return img.crop(bbox)
+def crop_to_icon(img):
+    img = img.convert("RGBA")
+    data = img.getdata()
+    width, height = img.size
+    
+    min_x, min_y, max_x, max_y = width, height, -1, -1
+    
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = data[y * width + x]
+            if a < 10:
+                continue
+            if r > 245 and g > 245 and b > 245:
+                continue
+            if x < min_x: min_x = x
+            if x > max_x: max_x = x
+            if y < min_y: min_y = y
+            if y > max_y: max_y = y
+            
+    if min_x <= max_x and min_y <= max_y:
+        return img.crop((min_x, min_y, max_x+1, max_y+1))
     return img
 
 svg_width = len(image_files) * 50 + (len(image_files) - 1) * 10
@@ -47,7 +61,7 @@ for filename in image_files:
         
     try:
         img = Image.open(path)
-        img = crop_to_non_white(img)
+        img = crop_to_icon(img)
         img = img.convert('RGBA')
         img = img.resize((50, 50), Image.Resampling.LANCZOS)
         
