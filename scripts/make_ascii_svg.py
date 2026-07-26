@@ -4,7 +4,7 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-fixed.svg"
+OUT = "paulina-dense.svg"
 
 COLS = 100
 ROWS = 53
@@ -133,7 +133,7 @@ parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}"
 # Wrap the ASCII art in a scaled group
 parts.append(f'<g transform="translate({art_translate_x}, {art_translate_y}) scale({SCALE:.5f})">')
 
-font_size = CELL_H * 0.86
+font_size = CELL_H * 1.2
 
 for ry, markup in enumerate(rows_markup):
     y = ry * CELL_H + CELL_H * 0.74
@@ -141,7 +141,7 @@ for ry, markup in enumerate(rows_markup):
     delay = ry * STAGGER
     
     text = (f'<text xml:space="preserve" x="0" y="{y:.1f}" '
-            f'font-size="{font_size:.1f}" textLength="{RAW_ART_W}" lengthAdjust="spacing">{markup}</text>')
+            f'font-size="{font_size:.1f}" font-weight="bold" textLength="{RAW_ART_W}" lengthAdjust="spacing">{markup}</text>')
 
     parts.append(
         f'<clipPath id="r{ry}"><rect x="0" y="{row_y:.1f}" height="{CELL_H}" width="0">'
