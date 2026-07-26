@@ -41,5 +41,33 @@ def update_views_json():
         
     print(f"Successfully updated views.json with count: {count_str}")
 
+def update_stars_json():
+    import urllib.request, json
+    url = "https://api.github.com/users/akonyaev-ru/repos?per_page=100"
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    try:
+        response = urllib.request.urlopen(req)
+        repos = json.loads(response.read().decode('utf-8'))
+        total_stars = sum(repo.get("stargazers_count", 0) for repo in repos)
+    except Exception as e:
+        print(f"Failed to fetch repos for stars: {e}")
+        return
+
+    endpoint_data = {
+        "schemaVersion": 1,
+        "label": "Total Stars",
+        "message": str(total_stars),
+        "color": "ffb000",
+        "style": "for-the-badge",
+        "namedLogo": "github",
+        "logoColor": "white"
+    }
+    
+    with open("stars.json", "w", encoding="utf-8") as f:
+        json.dump(endpoint_data, f, indent=2)
+        
+    print(f"Successfully updated stars.json with count: {total_stars}")
+
 if __name__ == "__main__":
     update_views_json()
+    update_stars_json()

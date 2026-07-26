@@ -39,4 +39,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: refresh contribution graph and profile views [skip ci]"
-          file_pattern: "data/contributions.json contrib-heatmap.svg views.json"
+          file_pattern: "data/contributions.json contrib-heatmap.svg views.json stars.json"
