@@ -22,8 +22,8 @@
 
 <table>
   <tr>
-    <td valign="top"><img src="./avi-ascii.svg?v=color3" height="384" /></td>
-    <td valign="top"><img src="./info-card.svg?v=reset" height="384" /></td>
+    <td valign="top"><img src="./avi-ascii.svg?v=color4" /></td>
+    <td valign="top"><img src="./info-card.svg?v=reset" /></td>
   </tr>
 </table>
 

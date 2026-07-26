@@ -11,15 +11,26 @@ ROWS = 53
 CELL_W = 8
 CELL_H = 15
 RAMP = " .`:-=+*cs#%@"  # bright(sparse) -> dark(dense)
-WHITE_FLOOR = 0.80
 
-PAD = 20
+# Original internal dimensions of the ASCII art
+RAW_ART_W = COLS * CELL_W   # 800
+RAW_ART_H = ROWS * CELL_H   # 795
+
+# Target dimensions
+CANVAS_H = 376  # Match info-card.svg exactly
 TITLEBAR_H = 30
 STATUS_H = 30
-ART_W = COLS * CELL_W
-ART_H = ROWS * CELL_H
-CANVAS_W = ART_W + PAD * 2
-CANVAS_H = TITLEBAR_H + ART_H + STATUS_H + PAD
+PAD = 20
+
+# Available height for the ASCII art
+TARGET_ART_H = CANVAS_H - TITLEBAR_H - STATUS_H - PAD  # 376 - 30 - 30 - 20 = 296
+SCALE = TARGET_ART_H / RAW_ART_H  # 296 / 795 = 0.372327...
+TARGET_ART_W = RAW_ART_W * SCALE  # 800 * 0.372327 = 297.86
+CANVAS_W = int(TARGET_ART_W + PAD * 2)  # 298 + 40 = 338
+
+# Layout
+art_translate_x = PAD
+art_translate_y = TITLEBAR_H + (PAD * 0.35)
 
 BG = "var(--bg)"
 BG2 = "var(--bg2)"
@@ -34,12 +45,8 @@ STAGGER = 0.11
 im = Image.open(SRC).convert("RGBA")
 im = im.resize((COLS, ROWS), Image.LANCZOS)
 px = im.load()
-
-# Pre-calculate luminance for character mapping
 im_l = im.convert("L")
 px_l = im_l.load()
-
-STATIC = False
 
 rows_markup = []
 for y in range(ROWS):
@@ -79,8 +86,6 @@ for y in range(ROWS):
             markup += f'<tspan fill="{current_color}">{safe}</tspan>'
             
     rows_markup.append(markup)
-
-art_top = TITLEBAR_H + PAD * 0.35
 
 parts = []
 parts.append(
@@ -125,33 +130,41 @@ for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
              f'text-anchor="middle">Paulina - Pride of the Empire</text>')
 
+# Wrap the ASCII art in a scaled group
+parts.append(f'<g transform="translate({art_translate_x}, {art_translate_y}) scale({SCALE:.5f})">')
+
 font_size = CELL_H * 0.86
 
-parts.append('<g id="portrait-layer">')
-
 for ry, markup in enumerate(rows_markup):
-    y = art_top + ry * CELL_H + CELL_H * 0.74
-    row_y = art_top + ry * CELL_H
+    y = ry * CELL_H + CELL_H * 0.74
+    row_y = ry * CELL_H
     delay = ry * STAGGER
     
-    text = (f'<text xml:space="preserve" x="{PAD}" y="{y:.1f}" '
-            f'font-size="{font_size:.1f}" textLength="{ART_W}" lengthAdjust="spacing">{markup}</text>')
+    text = (f'<text xml:space="preserve" x="0" y="{y:.1f}" '
+            f'font-size="{font_size:.1f}" textLength="{RAW_ART_W}" lengthAdjust="spacing">{markup}</text>')
 
     parts.append(
-        f'<clipPath id="r{ry}"><rect x="{PAD}" y="{row_y:.1f}" height="{CELL_H}" width="0">'
-        f'<animate attributeName="width" from="0" to="{ART_W}" begin="{delay:.3f}s" '
+        f'<clipPath id="r{ry}"><rect x="0" y="{row_y:.1f}" height="{CELL_H}" width="0">'
+        f'<animate attributeName="width" from="0" to="{RAW_ART_W}" begin="{delay:.3f}s" '
         f'dur="{ROW_DUR:.2f}s" fill="freeze"/></rect></clipPath>'
     )
     parts.append(f'<g clip-path="url(#r{ry})">{text}</g>')
     parts.append(
         f'<rect y="{row_y+1:.1f}" width="{CELL_W}" height="{CELL_H-2}" fill="{CURSOR}" opacity="0">'
-        f'<animate attributeName="x" from="{PAD}" to="{PAD+ART_W}" begin="{delay:.3f}s" '
+        f'<animate attributeName="x" from="0" to="{RAW_ART_W}" begin="{delay:.3f}s" '
         f'dur="{ROW_DUR:.2f}s" fill="freeze"/>'
         f'<set attributeName="opacity" to="0.85" begin="{delay:.3f}s"/>'
         f'<set attributeName="opacity" to="0" begin="{delay+ROW_DUR:.3f}s"/></rect>'
     )
 
 parts.append('</g>')
+
+# The sparkle is positioned based on the RAW_ART dimensions but it must be INSIDE the scaled group 
+# wait, the sparkle eye coordinate was calculated in the original coordinates (568, 247).
+# So if I put it INSIDE the scaled group, the coordinate is identical!
+
+# Let's insert the sparkle inside the scaled group just before closing it.
+parts.pop() # remove the </g>
 parts.append('<g transform="translate(568, 247)">')
 parts.append('<g>')
 parts.append('<animateTransform attributeName="transform" type="scale" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
@@ -160,8 +173,10 @@ parts.append('<path d="M0,-20 Q0,0 -20,0 Q0,0 0,20 Q0,0 20,0 Q0,0 0,-20 Z" fill=
 parts.append('<animate attributeName="opacity" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
 parts.append('</path>')
 parts.append('</g></g>')
+parts.append('</g>') # Now close the scaled group
 
-status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
+# status bar
+status_line_y = TITLEBAR_H + TARGET_ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
 parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
