@@ -1,7 +1,7 @@
 import os
 import base64
 import io
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageDraw
 
 image_files = [
     "Antigravity.webp",
@@ -14,7 +14,6 @@ image_files = [
 
 src_dir = r"g:\Мой диск\Агенты\Разработчики"
 dest_dir = r"g:\Мой диск\Агенты\Разработчики\akonyaev-ru\assets"
-
 os.makedirs(dest_dir, exist_ok=True)
 
 def crop_to_non_white(img):
@@ -44,42 +43,35 @@ x_offset = 0
 for filename in image_files:
     path = os.path.join(src_dir, filename)
     if not os.path.exists(path):
-        print(f"File not found: {path}")
         continue
         
     try:
         img = Image.open(path)
-        
-        # 1. Crop to remove white padding (this extracts the actual square icon)
         img = crop_to_non_white(img)
-        
-        # 2. Resize to 50x50 perfectly
-        # Ensure it's RGB/RGBA
-        if img.mode not in ('RGB', 'RGBA'):
-            img = img.convert('RGBA')
-            
+        img = img.convert('RGBA')
         img = img.resize((50, 50), Image.Resampling.LANCZOS)
         
-        # 3. Save to base64
+        # Floodfill white from corners
+        ImageDraw.floodfill(img, (0, 0), (255, 255, 255, 0), thresh=20)
+        ImageDraw.floodfill(img, (49, 0), (255, 255, 255, 0), thresh=20)
+        ImageDraw.floodfill(img, (0, 49), (255, 255, 255, 0), thresh=20)
+        ImageDraw.floodfill(img, (49, 49), (255, 255, 255, 0), thresh=20)
+        
         buffer = io.BytesIO()
         img.save(buffer, format="PNG")
         b64_str = base64.b64encode(buffer.getvalue()).decode('utf-8')
         
-        # 4. Generate SVG tag (White background for shadow, then the image clipped)
         tag = f"""
   <g transform="translate({x_offset}, 0)">
-    <rect width="50" height="50" rx="12" fill="#fff" filter="url(#shadow)"/>
-    <image href="data:image/png;base64,{b64_str}" width="50" height="50" clip-path="url(#squircle)"/>
+    <image href="data:image/png;base64,{b64_str}" width="50" height="50" clip-path="url(#squircle)" filter="url(#shadow)"/>
   </g>"""
         icon_tags.append(tag)
         x_offset += 60
     except Exception as e:
-        print(f"Failed to process {filename}: {e}")
+        print(f"Failed {filename}: {e}")
 
 SVG_TEMPLATE += "".join(icon_tags) + "\n</svg>"
 
 out_path = r"g:\Мой диск\Агенты\Разработчики\akonyaev-ru\ai-apps.svg"
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(SVG_TEMPLATE)
-    
-print("Successfully generated ai-apps.svg with perfectly cropped local images!")
