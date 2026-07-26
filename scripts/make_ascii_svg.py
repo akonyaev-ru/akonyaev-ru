@@ -110,23 +110,6 @@ parts.append('''
       --cursor: #c9d1d9;
     }
   }
-
-  @keyframes portrait-zoom {
-    0%, 70%, 100% { transform: scale(1); }
-    75%, 95% { transform: scale(3.5); }
-  }
-  @keyframes sparkle-anim {
-    0%, 78%, 90%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-    84% { opacity: 1; transform: scale(1) rotate(90deg); }
-  }
-  #portrait-layer {
-    transform-origin: 604px 322px;
-    animation: portrait-zoom 10s ease-in-out infinite;
-  }
-  #sparkle {
-    transform-origin: 604px 322px;
-    animation: sparkle-anim 10s ease-in-out infinite;
-  }
 </style>
 ''')
 parts.append('<defs>'
@@ -146,7 +129,12 @@ parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}"
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
-parts.append('<g id="portrait-layer">')
+
+parts.append('<g transform="translate(604, 322)">')
+parts.append('<g>')
+parts.append('<animateTransform attributeName="transform" type="scale" values="1; 1; 3.5; 3.5; 1" keyTimes="0; 0.7; 0.75; 0.95; 1" dur="10s" repeatCount="indefinite" />')
+parts.append('<g transform="translate(-604, -322)">')
+
 for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
     row_y = art_top + ry * CELL_H
@@ -175,9 +163,15 @@ for ry, line in enumerate(rows_txt):
 
 # status bar with a steady blinking cursor
 
-parts.append('</g>')
-# Add a sparkle star
-parts.append('<path id="sparkle" d="M604,302 Q604,322 584,322 Q604,322 604,342 Q604,322 624,322 Q604,322 604,302 Z" fill="#fff"/>')
+parts.append('</g></g></g>')
+parts.append('<g transform="translate(604, 322)">')
+parts.append('<g>')
+parts.append('<animateTransform attributeName="transform" type="scale" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
+parts.append('<animateTransform attributeName="transform" type="rotate" values="0; 0; 90; 180; 180" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" additive="sum" />')
+parts.append('<path d="M0,-20 Q0,0 -20,0 Q0,0 0,20 Q0,0 20,0 Q0,0 0,-20 Z" fill="#fff">')
+parts.append('<animate attributeName="opacity" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
+parts.append('</path>')
+parts.append('</g></g>')
 
 status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
