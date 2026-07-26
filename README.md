@@ -14,9 +14,7 @@
 
 <!-- AI Stack Section -->
 <p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=python,pytorch,tensorflow,postgres,docker,fastapi,git,github&theme=light" />
-  </a>
+  <img src="./ai-apps.svg?v=1" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude" />
 </p>
 
 <br>
