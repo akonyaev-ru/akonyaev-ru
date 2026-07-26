@@ -20,11 +20,6 @@
 
 <br>
 
-<table>
-  <tr>
-    <td valign="top"><img src="./paulina-final.svg?v=1" width="370" /></td>
-    <td valign="top"><img src="./info-card.svg?v=reset" width="490" /></td>
-  </tr>
-</table>
+<img src="./paulina-final.svg?v=1" width="370" /><img src="./info-card.svg?v=reset" width="490" />
 
 </div>
