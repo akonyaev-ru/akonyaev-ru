@@ -19,7 +19,7 @@ RAW_ART_H = ROWS * CELL_H   # 795
 # Target dimensions
 CANVAS_H = 376  # Match info-card.svg exactly
 TITLEBAR_H = 30
-STATUS_H = 30
+STATUS_H = 0
 PAD = 20
 
 # Available height for the ASCII art
@@ -175,15 +175,7 @@ parts.append('</path>')
 parts.append('</g></g>')
 parts.append('</g>') # Now close the scaled group
 
-# status bar
-status_line_y = TITLEBAR_H + TARGET_ART_H + PAD * 0.35
-status_y = status_line_y + 19
-parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
-parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
-             f'Paulina - Pride of the Empire</text>')
-parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
-             f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
-             f'dur="1s" repeatCount="indefinite"/></rect>')
+# status bar removed
 
 parts.append("</svg>")
 svg = "".join(parts)
