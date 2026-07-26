@@ -35,8 +35,16 @@ jobs:
       - name: Fetch Profile Views
         run: python scripts/fetch_views.py
 
+      - name: Generate github-contribution-grid-snake.svg
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            github-contribution-grid-snake.svg
+            github-contribution-grid-snake-dark.svg?palette=github-dark
+
       - name: Commit updated art
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: refresh contribution graph and profile views [skip ci]"
-          file_pattern: "data/contributions.json contrib-heatmap.svg views.json stars.json"
+          file_pattern: "data/contributions.json contrib-heatmap.svg views.json stars.json github-contribution-grid-snake.svg github-contribution-grid-snake-dark.svg"
