@@ -15,7 +15,7 @@ data = np.array(im)
 bg_color = data[0, 0] # Top-left pixel is background
 
 # Create mask where color matches bg_color (with some tolerance)
-tolerance = 15
+tolerance = 45
 diff = np.abs(data[:, :, :3].astype(int) - bg_color[:3].astype(int))
 mask = np.all(diff < tolerance, axis=-1)
 

@@ -4,13 +4,13 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-no-text.svg"
+OUT = "paulina-solid.svg"
 
 COLS = 100
 ROWS = 53
 CELL_W = 8
 CELL_H = 15
-RAMP = " .`:-=+*cs#%@"  # bright(sparse) -> dark(dense)
+RAMP = "=+*cs#%@W&8M"
 
 # Original internal dimensions of the ASCII art
 RAW_ART_W = COLS * CELL_W   # 800
