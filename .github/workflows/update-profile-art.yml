@@ -26,11 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
 
-      - name: Scrape real contribution data (no auth needed)
-        run: python scripts/fetch_contributions.py
 
-      - name: Render animated contribution graph SVG
-        run: python scripts/render_heatmap_svg.py
 
       - name: Fetch Profile Views
         run: python scripts/fetch_views.py
@@ -38,5 +34,5 @@ jobs:
       - name: Commit updated art
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: refresh contribution graph and profile views [skip ci]"
-          file_pattern: "data/contributions.json contrib-heatmap.svg views.json stars.json"
+          commit_message: "chore: refresh profile views [skip ci]"
+          file_pattern: "views.json stars.json"
