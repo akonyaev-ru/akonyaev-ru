@@ -13,7 +13,7 @@
 <!-- AI Stack Section -->
 <h3 align="center">My Tech Stack</h3>
 <p align="center">
-  <img src="./ai-apps-12s.svg" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
+  <img src="./ai-apps-glow.svg" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
 </p>
 
 </div>
