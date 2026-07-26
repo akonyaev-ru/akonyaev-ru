@@ -4,7 +4,7 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-v2.svg"
+OUT = "paulina-v3.svg"
 
 COLS = 100
 ROWS = 53
