@@ -26,7 +26,10 @@ BG2 = "var(--bg2)"
 FRAME = "var(--frame)"
 MUTED = "var(--muted)"
 INK = "var(--ink)"
-KEY = "var(--key)"      # orange keys (matches Andrew)
+KEY = "var(--key)"      # orange keys (matches Andrew); light value is Primer
+                        # fgColor-attention #9a6700, not #b07d00 -- the latter
+                        # measured 3.45-3.54:1 on the card gradient, under AA's
+                        # 4.5:1 for 12.5px bold. Dark #ffa657 already passes 9.4:1.
 SECTION = "var(--section)"  # blue section headers
 GREEN = "var(--green)"
 ACCENT = "var(--accent)"
@@ -79,7 +82,7 @@ parts = [
     --frame: #d0d7de;
     --muted: #57606a;
     --ink: #24292f;
-    --key: #b07d00;
+    --key: #9a6700;
     --section: #0969da;
     --green: #1a7f37;
     --accent: #0550ae;
