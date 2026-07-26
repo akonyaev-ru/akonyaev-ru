@@ -1,17 +1,41 @@
+"""
+Convert a portrait photo into a CLEAN, monochrome ASCII-art SVG (Andrew6rant
+style: one light-gray color, subject isolated on a dark background) that "types"
+itself in like a terminal, then holds.
+
+Monochrome is deliberate -- per-character rainbow color is what makes ASCII
+portraits look noisy. One fill color + a good density ramp + high contrast (so a
+busy background washes out to blank) reads as neat and legible.
+
+GitHub renders SVGs embedded via <img> and runs their SMIL animations there (JS
+does not run). Each row is revealed with a left-to-right clip wipe plus a small
+block cursor riding the wipe edge, staggered top -> bottom, so the whole
+portrait prints once and freezes.
+"""
+from PIL import Image, ImageEnhance, ImageOps, ImageFilter
+import html
 import os
 import sys
-import html
-from PIL import Image
 
-SRC = "source-prepped-color.png"
-OUT = "avi-ascii.svg"
+HERE = os.path.dirname(os.path.abspath(__file__))
+# defaults to the prepped grayscale image (see prep_photo.py), which already has
+# the background removed + local contrast applied.
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "source-prepped.png")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "..", "avi-ascii.svg")
 
 COLS = 100
 ROWS = 53
 CELL_W = 8
 CELL_H = 15
-RAMP = " .`:-=+*cs#%@"  # bright(sparse) -> dark(dense)
-WHITE_FLOOR = 0.80
+RAMP = " .`:-=+*cs#%@"  # bright(sparse) -> dark(dense); leading space clears bg
+
+# the prepped image already has bg removed + CLAHE local contrast, so only
+# light global tuning is needed here.
+CONTRAST = 1.05
+BRIGHTNESS = 1.0
+GAMMA = 1.18          # >1 brightens mids -> face lands in sparser chars
+SHARPEN = False
+WHITE_FLOOR = 0.80    # luminance above this is forced to blank (space)
 
 PAD = 20
 TITLEBAR_H = 30
@@ -28,60 +52,38 @@ TITLE_TEXT = "var(--title-text)"
 INK = "var(--ink)"
 CURSOR = "var(--cursor)"
 
+# ---- reveal timing (one-shot; a cursor rasters top -> bottom) -------------
 ROW_DUR = 0.11
-STAGGER = 0.11
+STAGGER = 0.11       # == ROW_DUR -> a single cursor sweeping down
 
-im = Image.open(SRC).convert("RGBA")
+# ---- 1. sample the image into a COLS x ROWS grayscale grid ----------------
+im = Image.open(SRC).convert("L")               # grayscale
+if SHARPEN:
+    im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=140, threshold=2))
+im = ImageEnhance.Brightness(im).enhance(BRIGHTNESS)
+im = ImageEnhance.Contrast(im).enhance(CONTRAST)
 im = im.resize((COLS, ROWS), Image.LANCZOS)
 px = im.load()
 
-# Pre-calculate luminance for character mapping
-im_l = im.convert("L")
-px_l = im_l.load()
+STATIC = bool(os.environ.get("STATIC"))  # emit frozen state for previews
 
-STATIC = False
-
-rows_markup = []
+rows_txt = []
 for y in range(ROWS):
-    markup = ""
-    current_color = None
-    current_text = ""
-    
+    chars = []
     for x in range(COLS):
-        r, g, b, a = px[x, y]
-        if a < 128:
-            color = None
-            char = " "
-        else:
-            color = f"#{r:02x}{g:02x}{b:02x}"
-            lum = px_l[x, y] / 255.0
-            idx = int((1.0 - lum) * (len(RAMP) - 1) + 0.5)
-            idx = max(0, min(len(RAMP) - 1, idx))
-            char = RAMP[idx]
-            
-        if color != current_color:
-            if current_text:
-                if current_color is None:
-                    markup += " " * len(current_text)
-                else:
-                    safe = html.escape(current_text)
-                    markup += f'<tspan fill="{current_color}">{safe}</tspan>'
-            current_color = color
-            current_text = char
-        else:
-            current_text += char
-            
-    if current_text:
-        if current_color is None:
-            markup += " " * len(current_text)
-        else:
-            safe = html.escape(current_text)
-            markup += f'<tspan fill="{current_color}">{safe}</tspan>'
-            
-    rows_markup.append(markup)
+        lum = px[x, y] / 255.0
+        lum = pow(lum, GAMMA)
+        if lum >= WHITE_FLOOR:
+            chars.append(" ")
+            continue
+        idx = int((1.0 - lum) * (len(RAMP) - 1) + 0.5)
+        idx = max(0, min(len(RAMP) - 1, idx))
+        chars.append(RAMP[idx])
+    rows_txt.append("".join(chars))
 
 art_top = TITLEBAR_H + PAD * 0.35
 
+# ---- 2. assemble SVG ------------------------------------------------------
 parts = []
 parts.append(
     f'<svg xmlns="http://www.w3.org/2000/svg" width="{CANVAS_W}" height="{CANVAS_H}" '
@@ -123,19 +125,27 @@ parts.append(f'<line x1="0" y1="{TITLEBAR_H}" x2="{CANVAS_W}" y2="{TITLEBAR_H}" 
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
-             f'text-anchor="middle">Paulina - Pride of the Empire</text>')
+             f'text-anchor="middle">Alexey Konyaev</text>')
 
+# one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
 
-parts.append('<g id="portrait-layer">')
+parts.append('<g transform="translate(604, 322)">')
+parts.append('<g>')
+parts.append('<animateTransform attributeName="transform" type="scale" values="1; 1; 3.5; 3.5; 1" keyTimes="0; 0.7; 0.75; 0.95; 1" dur="10s" repeatCount="indefinite" />')
+parts.append('<g transform="translate(-604, -322)">')
 
-for ry, markup in enumerate(rows_markup):
+for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
     row_y = art_top + ry * CELL_H
     delay = ry * STAGGER
-    
-    text = (f'<text xml:space="preserve" x="{PAD}" y="{y:.1f}" '
-            f'font-size="{font_size:.1f}" textLength="{ART_W}" lengthAdjust="spacing">{markup}</text>')
+    safe = html.escape(line)
+    text = (f'<text xml:space="preserve" x="{PAD}" y="{y:.1f}" fill="{INK}" '
+            f'font-size="{font_size:.1f}" textLength="{ART_W}" lengthAdjust="spacing">{safe}</text>')
+
+    if STATIC:
+        parts.append(text)
+        continue
 
     parts.append(
         f'<clipPath id="r{ry}"><rect x="{PAD}" y="{row_y:.1f}" height="{CELL_H}" width="0">'
@@ -151,8 +161,10 @@ for ry, markup in enumerate(rows_markup):
         f'<set attributeName="opacity" to="0" begin="{delay+ROW_DUR:.3f}s"/></rect>'
     )
 
-parts.append('</g>')
-parts.append('<g transform="translate(568, 247)">')
+# status bar with a steady blinking cursor
+
+parts.append('</g></g></g>')
+parts.append('<g transform="translate(604, 322)">')
 parts.append('<g>')
 parts.append('<animateTransform attributeName="transform" type="scale" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
 parts.append('<animateTransform attributeName="transform" type="rotate" values="0; 0; 90; 180; 180" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" additive="sum" />')
@@ -165,7 +177,7 @@ status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
 parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
-             f'Paulina - Pride of the Empire</text>')
+             f'Alexey Konyaev</text>')
 parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')
@@ -174,4 +186,4 @@ parts.append("</svg>")
 svg = "".join(parts)
 with open(OUT, "w") as f:
     f.write(svg)
-print("wrote", OUT, len(svg), "bytes;")
+print("wrote", OUT, len(svg), "bytes;", CANVAS_W, "x", CANVAS_H)

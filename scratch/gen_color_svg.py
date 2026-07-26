@@ -135,7 +135,7 @@ for ry, markup in enumerate(rows_markup):
     delay = ry * STAGGER
     
     text = (f'<text xml:space="preserve" x="{PAD}" y="{y:.1f}" '
-            f'font-size="{font_size:.1f}" textLength="{ART_W}" lengthAdjust="spacing">{markup}</text>')
+            f'font-size="{font_size:.1f}">{markup}</text>')
 
     parts.append(
         f'<clipPath id="r{ry}"><rect x="{PAD}" y="{row_y:.1f}" height="{CELL_H}" width="0">'
