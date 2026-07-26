@@ -14,7 +14,7 @@
 
 <!-- AI Stack Section -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps.svg?v=3" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude" />
+  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps.svg?v=4" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, n8n" />
 </p>
 
 <br>
