@@ -4,7 +4,7 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-final.svg"
+OUT = "paulina-3d.svg"
 
 COLS = 100
 ROWS = 53
@@ -113,6 +113,15 @@ parts.append('''
       --cursor: #c9d1d9;
     }
   }
+  @keyframes swing {
+    0% { transform: perspective(800px) scale(0.96) rotateY(-5deg); }
+    50% { transform: perspective(800px) scale(0.96) rotateY(5deg); }
+    100% { transform: perspective(800px) scale(0.96) rotateY(-5deg); }
+  }
+  .swing {
+    transform-origin: 50% 50%;
+    animation: swing 6s ease-in-out infinite;
+  }
 </style>
 ''')
 parts.append('<defs>'
@@ -120,6 +129,7 @@ parts.append('<defs>'
              f'<stop offset="0" stop-color="{BG2}"/><stop offset="1" stop-color="{BG}"/>'
              f'</linearGradient></defs>')
 
+parts.append('<g class="swing">')
 parts.append(f'<rect width="{CANVAS_W}" height="{CANVAS_H}" rx="12" fill="url(#bg)"/>')
 parts.append(f'<rect x="0.5" y="0.5" width="{CANVAS_W-1}" height="{CANVAS_H-1}" rx="12" '
              f'fill="none" stroke="{FRAME}" stroke-width="1"/>')
@@ -177,6 +187,7 @@ parts.append('</g>') # Now close the scaled group
 
 # status bar removed
 
+parts.append("</g>")
 parts.append("</svg>")
 svg = "".join(parts)
 with open(OUT, "w") as f:
