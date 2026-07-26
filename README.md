@@ -13,7 +13,7 @@
 <!-- AI Stack Section -->
 <h3 align="center">My Tech Stack</h3>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps-zoom.svg" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
+  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps-fast.svg" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
 </p>
 
 </div>
