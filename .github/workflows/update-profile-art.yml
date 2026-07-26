@@ -32,8 +32,11 @@ jobs:
       - name: Render animated contribution graph SVG
         run: python scripts/render_heatmap_svg.py
 
+      - name: Fetch Profile Views
+        run: python scripts/fetch_views.py
+
       - name: Commit updated art
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: refresh contribution graph [skip ci]"
-          file_pattern: "data/contributions.json contrib-heatmap.svg"
+          commit_message: "chore: refresh contribution graph and profile views [skip ci]"
+          file_pattern: "data/contributions.json contrib-heatmap.svg views.json"
