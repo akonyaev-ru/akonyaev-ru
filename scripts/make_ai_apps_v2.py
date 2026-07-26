@@ -62,9 +62,17 @@ for filename in image_files:
         
     try:
         img = Image.open(path)
-        img = crop_to_icon(img)
-        img = img.convert('RGBA')
-        img = img.resize((50, 50), Image.Resampling.LANCZOS)
+        if filename == "Obsidian.png":
+            img = crop_to_icon(img)
+            img = img.convert('RGBA')
+            img = img.resize((34, 34), Image.Resampling.LANCZOS)
+            bg = Image.new('RGBA', (50, 50), (30, 30, 30, 255))
+            bg.paste(img, (8, 8), img)
+            img = bg
+        else:
+            img = crop_to_icon(img)
+            img = img.convert('RGBA')
+            img = img.resize((50, 50), Image.Resampling.LANCZOS)
         
         # Floodfill white from corners
         ImageDraw.floodfill(img, (0, 0), (255, 255, 255, 0), thresh=20)
