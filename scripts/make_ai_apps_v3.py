@@ -110,7 +110,7 @@ parts = [
     '    <clipPath id="squircle">',
     '      <rect x="-25" y="-25" width="50" height="50" rx="12"/>',
     '    </clipPath>',
-    '    <filter id="shadow" x="-35" y="-35" width="70" height="70" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">',
+    '    <filter id="shadow">',
     '      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15" />',
     '    </filter>',
     '  </defs>',
