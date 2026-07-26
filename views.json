@@ -3,7 +3,7 @@
   "label": "Profile Views",
   "message": "9",
   "color": "0e75b6",
-  "style": "for-the-badge",
+  "style": "flat",
   "namedLogo": "github",
   "logoColor": "white"
 }
