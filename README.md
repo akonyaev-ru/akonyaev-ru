@@ -10,7 +10,7 @@
 
 <img src="./contrib-heatmap.svg?v=reset" width="860" />
 
-<br><br>
+<br>
 
 <!-- AI Stack Section -->
 <h3 align="center">My Tech Stack</h3>
