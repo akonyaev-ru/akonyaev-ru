@@ -9,6 +9,7 @@ image_files = [
     "ChaatGPT.png",
     "Claude.webp",
     "Cursor.jpg",
+    "Obsidian.png",
     "n8n.png"
 ]
 
