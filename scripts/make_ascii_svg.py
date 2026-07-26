@@ -4,7 +4,7 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-v3.svg"
+OUT = "paulina-v4.svg"
 
 COLS = 100
 ROWS = 53
@@ -141,7 +141,7 @@ for ry, markup in enumerate(rows_markup):
     delay = ry * STAGGER
     
     text = (f'<text xml:space="preserve" x="0" y="{y:.1f}" '
-            f'font-size="{font_size:.1f}" font-weight="bold" textLength="{RAW_ART_W}" lengthAdjust="spacing">{markup}</text>')
+            f'font-size="{font_size:.1f}" font-weight="bold" textLength="{RAW_ART_W}" lengthAdjust="spacingAndGlyphs">{markup}</text>')
 
     parts.append(
         f'<clipPath id="r{ry}"><rect x="0" y="{row_y:.1f}" height="{CELL_H}" width="0">'

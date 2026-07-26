@@ -1,4 +1,6 @@
-<svg width="410" height="50" viewBox="0 0 410 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+import os
+
+SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="agIconGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
       <stop stop-color="#00E5FF" offset="0%"/>
@@ -143,3 +145,10 @@
     </g>
   </g>
 </svg>
+"""
+
+import os
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ai-apps-12s.svg"), "w", encoding="utf-8") as f:
+    f.write(SVG_TEMPLATE)
+
+print("Generated ai-apps-12s.svg")
