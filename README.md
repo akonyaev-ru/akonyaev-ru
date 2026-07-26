@@ -10,12 +10,10 @@
 
 <img src="./paulina-final.svg?v=1" width="362" />&nbsp;<img src="./info-card.svg?v=reset" width="480" />
 
-<br>
-
 <!-- AI Stack Section -->
 <h3 align="center">My Tech Stack</h3>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps-dense.svg" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
+  <img src="https://raw.githubusercontent.com/akonyaev-ru/akonyaev-ru/main/ai-apps.svg?v=15" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude, Cursor, Obsidian, n8n" />
 </p>
 
 </div>
