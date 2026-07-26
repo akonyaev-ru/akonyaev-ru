@@ -4,13 +4,13 @@ import html
 from PIL import Image
 
 SRC = "source-prepped-color.png"
-OUT = "paulina-dense.svg"
+OUT = "paulina-final.svg"
 
 COLS = 100
 ROWS = 53
 CELL_W = 8
 CELL_H = 15
-RAMP = "=+*cs#%@W&8M"
+RAMP = "MNH#@W8B&%"
 
 # Original internal dimensions of the ASCII art
 RAW_ART_W = COLS * CELL_W   # 800
@@ -133,7 +133,7 @@ parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}"
 # Wrap the ASCII art in a scaled group
 parts.append(f'<g transform="translate({art_translate_x}, {art_translate_y}) scale({SCALE:.5f})">')
 
-font_size = CELL_H * 1.2
+font_size = CELL_H * 1.35
 
 for ry, markup in enumerate(rows_markup):
     y = ry * CELL_H + CELL_H * 0.74
