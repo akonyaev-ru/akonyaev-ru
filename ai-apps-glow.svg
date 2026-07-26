@@ -1,5 +1,15 @@
 <svg width="410" height="50" viewBox="0 0 410 50" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <linearGradient id="fadeMask" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="black" />
+      <stop offset="15%" stop-color="white" />
+      <stop offset="85%" stop-color="white" />
+      <stop offset="100%" stop-color="black" />
+    </linearGradient>
+    <mask id="carouselMask">
+      <rect x="0" y="0" width="410" height="50" fill="url(#fadeMask)" />
+    </mask>
+
     <clipPath id="squircle">
       <rect width="50" height="50" rx="12"/>
     </clipPath>
@@ -7,8 +17,8 @@
       <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15" />
     </filter>
   </defs>
-
-  <g>
+  <g mask="url(#carouselMask)">
+<g>
     <animateTransform 
       attributeName="transform" 
       type="translate" 
@@ -58,6 +68,7 @@
   </g>
     <g transform="translate(780, 0)">
     <image href="data:image/png;base64,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" width="50" height="50" clip-path="url(#squircle)" filter="url(#shadow)"/>
+  </g>
   </g>
   </g>
 </svg>
