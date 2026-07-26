@@ -6,23 +6,17 @@ RAMP = " .:-=+*#%@"
 
 CHAR_W = 6
 LINE_H = 10
-ROWS = 24  # Fewer rows = bigger characters relative to the image size
+ROWS = 40
 
 def make_svg(src_path, out_path, flip=False):
     im = Image.open(src_path).convert("RGBA")
     if flip:
         im = im.transpose(Image.FLIP_LEFT_RIGHT)
         
-    # Crop to non-transparent bounding box
-    bbox = im.getbbox()
-    if bbox:
-        im = im.crop(bbox)
-        
     orig_w, orig_h = im.size
     cols = int((orig_w / orig_h) * ROWS * (LINE_H / CHAR_W))
     
-    # Use NEAREST to preserve pixel art blockiness
-    im = im.resize((cols, ROWS), Image.NEAREST)
+    im = im.resize((cols, ROWS), Image.LANCZOS)
     px = im.load()
     im_l = im.convert("L")
     px_l = im_l.load()
@@ -39,16 +33,11 @@ def make_svg(src_path, out_path, flip=False):
                 color = None
                 char = " "
             else:
-                # Darken the colors slightly for better visibility on white bg
-                r = max(0, int(r * 0.8))
-                g = max(0, int(g * 0.8))
-                b = max(0, int(b * 0.8))
                 color = f"#{r:02x}{g:02x}{b:02x}"
                 lum = px_l[x, y] / 255.0
                 idx = int((1.0 - lum) * (len(RAMP) - 1) + 0.5)
                 idx = max(0, min(len(RAMP) - 1, idx))
-                # Force denser characters for better visibility
-                char = RAMP[max(5, idx)]
+                char = RAMP[idx]
                 
             if color != current_color:
                 if current_text:
@@ -74,7 +63,7 @@ def make_svg(src_path, out_path, flip=False):
     
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
-        f'font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-weight="900">',
+        f'font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">',
         '<style>',
         '  :root {',
         '    --bg: transparent;',
@@ -95,5 +84,5 @@ def make_svg(src_path, out_path, flip=False):
     print(f"wrote {out_path} {w}x{h}")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-make_svg(os.path.join(HERE, "..", "Маг.png"), os.path.join(HERE, "..", "mage-v2.svg"))
-make_svg(os.path.join(HERE, "..", "Рыцарь.png"), os.path.join(HERE, "..", "knight-v2.svg"), flip=True)
+make_svg(os.path.join(HERE, "..", "Маг.png"), os.path.join(HERE, "..", "mage.svg"))
+make_svg(os.path.join(HERE, "..", "Рыцарь.png"), os.path.join(HERE, "..", "knight.svg"), flip=True)
