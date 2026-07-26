@@ -63,6 +63,13 @@ for filename in image_files:
     try:
         img = Image.open(path)
         img = crop_to_icon(img)
+        
+        # Inset by 1.5% to remove any white anti-aliasing artifacts on the edges
+        w, h = img.size
+        inset_x = int(w * 0.015)
+        inset_y = int(h * 0.015)
+        img = img.crop((inset_x, inset_y, w - inset_x, h - inset_y))
+        
         img = img.convert('RGBA')
         img = img.resize((50, 50), Image.Resampling.LANCZOS)
         
