@@ -26,10 +26,10 @@ PAD = 20
 TARGET_ART_H = CANVAS_H - TITLEBAR_H - STATUS_H - PAD  # 376 - 30 - 30 - 20 = 296
 SCALE = TARGET_ART_H / RAW_ART_H  # 296 / 795 = 0.372327...
 TARGET_ART_W = RAW_ART_W * SCALE  # 800 * 0.372327 = 297.86
-CANVAS_W = int(TARGET_ART_W + PAD * 2)  # 298 + 40 = 338
+CANVAS_W = 362
 
 # Layout
-art_translate_x = PAD
+art_translate_x = (CANVAS_W - TARGET_ART_W) / 2
 art_translate_y = TITLEBAR_H + (PAD * 0.35)
 
 BG = "var(--bg)"
