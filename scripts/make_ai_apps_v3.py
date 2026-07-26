@@ -1,44 +1,8 @@
 import os
 
-SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="agIconGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#00E5FF" offset="0%"/>
-      <stop stop-color="#FF9800" offset="40%"/>
-      <stop stop-color="#F44336" offset="60%"/>
-      <stop stop-color="#2979FF" offset="100%"/>
-    </linearGradient>
-    <linearGradient id="fadeMask" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="black" />
-      <stop offset="15%" stop-color="white" />
-      <stop offset="85%" stop-color="white" />
-      <stop offset="100%" stop-color="black" />
-    </linearGradient>
-    <mask id="carouselMask">
-      <rect x="0" y="0" width="410" height="50" fill="url(#fadeMask)" />
-    </mask>
-    <clipPath id="squircle">
-      <rect x="-25" y="-25" width="50" height="50" rx="12"/>
-    </clipPath>
-    <filter id="shadow" x="-4" y="-2" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15" />
-    </filter>
-  </defs>
-
-  <g mask="url(#carouselMask)">
-    <g>
-      <animateTransform 
-        attributeName="transform" 
-        type="translate" 
-        from="0 0" 
-        to="-420 0" 
-        dur="12.0s" 
-        repeatCount="indefinite" 
-      />
-
-      <!-- App 1: Antigravity -->
-      <g transform="translate(0, 0)">
-        <g transform="translate(25, 25)">
+APPS = [
+    # App 1: Antigravity
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.4;0.4;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#1B1C1D" filter="url(#shadow)" />
@@ -48,12 +12,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 2: NotebookLM -->
-      <g transform="translate(60, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 2: NotebookLM
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.6;0.58;0.56;0.54;0.52;0.5;0.48;0.46;0.44;0.42;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#000000" filter="url(#shadow)" />
@@ -65,12 +26,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 3: ChatGPT -->
-      <g transform="translate(120, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 3: ChatGPT
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.8;0.78;0.76;0.74;0.72;0.7;0.68;0.66;0.64;0.62;0.6;0.58;0.56;0.54;0.52;0.5;0.48;0.46;0.44;0.42;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#10a37f" filter="url(#shadow)" />
@@ -80,12 +38,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 4: Claude -->
-      <g transform="translate(180, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 4: Claude
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="1.0;0.98;0.96;0.94;0.92;0.9;0.88;0.86;0.84;0.82;0.8;0.78;0.76;0.74;0.72;0.7;0.68;0.66;0.64;0.62;0.6;0.58;0.56;0.54;0.52;0.5;0.48;0.46;0.44;0.42;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#D97757" filter="url(#shadow)" />
@@ -95,12 +50,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 5: Cursor -->
-      <g transform="translate(240, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 5: Cursor
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.8;0.82;0.84;0.86;0.88;0.9;0.92;0.94;0.96;0.98;1.0;0.98;0.96;0.94;0.92;0.9;0.88;0.86;0.84;0.82;0.8;0.78;0.76;0.74;0.72;0.7;0.68;0.66;0.64;0.62;0.6;0.58;0.56;0.54;0.52;0.5;0.48;0.46;0.44;0.42;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#1C1C1C" filter="url(#shadow)" />
@@ -110,12 +62,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 6: Obsidian -->
-      <g transform="translate(300, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 6: Obsidian
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.6;0.62;0.64;0.66;0.68;0.7;0.72;0.74;0.76;0.78;0.8;0.82;0.84;0.86;0.88;0.9;0.92;0.94;0.96;0.98;1.0;0.98;0.96;0.94;0.92;0.9;0.88;0.86;0.84;0.82;0.8;0.78;0.76;0.74;0.72;0.7;0.68;0.66;0.64;0.62;0.6" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#483699" filter="url(#shadow)" />
@@ -125,12 +74,9 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-
-      <!-- App 7: n8n -->
-      <g transform="translate(360, 0)">
-        <g transform="translate(25, 25)">
+    """,
+    # App 7: n8n
+    """
           <g>
             <animateTransform attributeName="transform" type="scale" values="0.4;0.42;0.44;0.46;0.48;0.5;0.52;0.54;0.56;0.58;0.6;0.62;0.64;0.66;0.68;0.7;0.72;0.74;0.76;0.78;0.8;0.82;0.84;0.86;0.88;0.9;0.92;0.94;0.96;0.98;1.0;0.98;0.96;0.94;0.92;0.9;0.88;0.86;0.84;0.82;0.8;0.78;0.76;0.74;0.72;0.7;0.68;0.66;0.64;0.62;0.6;0.58;0.56;0.54;0.52;0.5;0.48;0.46;0.44;0.42;0.4" dur="12.0s" repeatCount="indefinite" />
             <rect x="-25" y="-25" width="50" height="50" rx="12" fill="#EA4B71" filter="url(#shadow)" />
@@ -140,15 +86,64 @@ SVG_TEMPLATE = """<svg width="410" height="50" viewBox="0 0 410 50" fill="none" 
               </svg>
             </g>
           </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>
-"""
+    """
+]
 
-import os
+parts = [
+    '<svg width="410" height="50" viewBox="0 0 410 50" fill="none" xmlns="http://www.w3.org/2000/svg">',
+    '  <defs>',
+    '    <linearGradient id="agIconGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">',
+    '      <stop stop-color="#00E5FF" offset="0%"/>',
+    '      <stop stop-color="#FF9800" offset="40%"/>',
+    '      <stop stop-color="#F44336" offset="60%"/>',
+    '      <stop stop-color="#2979FF" offset="100%"/>',
+    '    </linearGradient>',
+    '    <linearGradient id="fadeMask" x1="0" y1="0" x2="1" y2="0">',
+    '      <stop offset="0%" stop-color="black" />',
+    '      <stop offset="15%" stop-color="white" />',
+    '      <stop offset="85%" stop-color="white" />',
+    '      <stop offset="100%" stop-color="black" />',
+    '    </linearGradient>',
+    '    <mask id="carouselMask">',
+    '      <rect x="0" y="0" width="410" height="50" fill="url(#fadeMask)" />',
+    '    </mask>',
+    '    <clipPath id="squircle">',
+    '      <rect x="-25" y="-25" width="50" height="50" rx="12"/>',
+    '    </clipPath>',
+    '    <filter id="shadow" x="-4" y="-2" width="56" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">',
+    '      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15" />',
+    '    </filter>',
+    '  </defs>',
+    '  <g mask="url(#carouselMask)">',
+    '    <g>',
+    '      <animateTransform ',
+    '        attributeName="transform" ',
+    '        type="translate" ',
+    '        from="0 0" ',
+    '        to="-420 0" ',
+    '        dur="12.0s" ',
+    '        repeatCount="indefinite" ',
+    '      />'
+]
+
+# Generate 14 icons (2 full loops of 7) for seamless endless scrolling
+x_offset = 0
+for i in range(14):
+    app_index = i % 7
+    parts.append(f'      <g transform="translate({x_offset}, 0)">')
+    parts.append(f'        <g transform="translate(25, 25)">')
+    parts.append(APPS[app_index])
+    parts.append(f'        </g>')
+    parts.append(f'      </g>')
+    x_offset += 60
+
+parts.append('    </g>')
+parts.append('  </g>')
+parts.append('</svg>')
+
+svg = "\n".join(parts)
+
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ai-apps-12s.svg"), "w", encoding="utf-8") as f:
-    f.write(SVG_TEMPLATE)
+    f.write(svg)
 
-print("Generated ai-apps-12s.svg")
+print("Generated ai-apps-12s.svg with duplicated icons for seamless animation")
