@@ -2,9 +2,11 @@ import os
 
 SVG_TEMPLATE = """<svg width="230" height="50" viewBox="0 0 230 50" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="agGrad" x1="0" y1="0" x2="50" y2="50" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#9C27B0"/>
-      <stop offset="1" stop-color="#3F51B5"/>
+    <linearGradient id="agIconGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00E5FF" offset="0%"/>
+      <stop stop-color="#FF9800" offset="40%"/>
+      <stop stop-color="#F44336" offset="60%"/>
+      <stop stop-color="#2979FF" offset="100%"/>
     </linearGradient>
     <linearGradient id="nlmGrad" x1="0" y1="0" x2="50" y2="50" gradientUnits="userSpaceOnUse">
       <stop stop-color="#2196F3"/>
@@ -14,10 +16,10 @@ SVG_TEMPLATE = """<svg width="230" height="50" viewBox="0 0 230 50" fill="none" 
 
   <!-- Antigravity -->
   <g transform="translate(0, 0)">
-    <rect width="50" height="50" rx="12" fill="url(#agGrad)"/>
+    <rect width="50" height="50" rx="12" fill="#1B1C1D"/>
     <g transform="translate(13, 13)">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <path fill="#fff" d="M12 2L2 22h4.5l2.5-5.5h6l2.5 5.5H22L12 2zm-1.5 11l3-6.5 3 6.5h-6z"/>
+        <path fill="url(#agIconGrad)" d="M 3 20 Q 8 2 12 2 Q 16 2 21 20 A 1.5 1.5 0 0 1 18 20.5 Q 15 10 12 10 Q 9 10 6 20.5 A 1.5 1.5 0 0 1 3 20 Z"/>
       </svg>
     </g>
   </g>
