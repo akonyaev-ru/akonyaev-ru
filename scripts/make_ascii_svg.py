@@ -165,6 +165,22 @@ parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" f
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')
 
+# eye blink animation (autonomous)
+EYE1_X = PAD + 46 * CELL_W
+EYE2_X = PAD + 56 * CELL_W
+EYE_Y = art_top + 25 * CELL_H
+EYE_W = 7 * CELL_W
+EYE_H = 4 * CELL_H
+
+parts.append(
+    f'<g opacity="0">'
+    f'<animate attributeName="opacity" values="0;0;1;0" keyTimes="0;0.96;0.98;1" '
+    f'dur="5s" repeatCount="indefinite"/>'
+    f'<rect x="{EYE1_X:.1f}" y="{EYE_Y:.1f}" width="{EYE_W}" height="{EYE_H}" fill="{BG}"/>'
+    f'<rect x="{EYE2_X:.1f}" y="{EYE_Y:.1f}" width="{EYE_W}" height="{EYE_H}" fill="{BG}"/>'
+    f'</g>'
+)
+
 parts.append("</svg>")
 svg = "".join(parts)
 with open(OUT, "w") as f:
