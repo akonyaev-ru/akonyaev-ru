@@ -14,7 +14,7 @@
 
 <!-- AI Stack Section -->
 <p align="center">
-  <img src="./ai-apps.svg?v=2" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude" />
+  <img src="./ai-apps.svg?v=3" alt="AI Apps: Antigravity, NotebookLM, ChatGPT, Claude" />
 </p>
 
 <br>
