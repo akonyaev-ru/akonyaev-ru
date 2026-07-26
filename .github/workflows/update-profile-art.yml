@@ -28,11 +28,11 @@ jobs:
 
 
 
-      - name: Fetch Profile Views
+      - name: Refresh star count
         run: python scripts/fetch_views.py
 
-      - name: Commit updated art
+      - name: Commit updated badges
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: refresh profile views [skip ci]"
-          file_pattern: "views.json stars.json"
+          commit_message: "chore: refresh star count [skip ci]"
+          file_pattern: "stars.json"
