@@ -20,6 +20,6 @@
 
 <br>
 
-<img src="./paulina-final.svg?v=1" width="370" /><img src="./info-card.svg?v=reset" width="490" />
+<img src="./paulina-final.svg?v=1" width="362" />&nbsp;<img src="./info-card.svg?v=reset" width="480" />
 
 </div>
