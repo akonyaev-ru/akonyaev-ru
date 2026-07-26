@@ -22,7 +22,7 @@
 
 <table>
   <tr>
-    <td valign="top"><img src="./avi-ascii.svg?v=zoom1" width="370" /></td>
+    <td valign="top"><img src="./avi-ascii.svg?v=zoom2" width="370" /></td>
     <td valign="top"><img src="./info-card.svg?v=reset" width="490" /></td>
   </tr>
 </table>

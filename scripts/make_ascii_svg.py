@@ -125,15 +125,16 @@ parts.append(f'<line x1="0" y1="{TITLEBAR_H}" x2="{CANVAS_W}" y2="{TITLEBAR_H}" 
 for i, dotcol in enumerate(["#ff5f56", "#ffbd2e", "#27c93f"]):
     parts.append(f'<circle cx="{PAD + i*16}" cy="{TITLEBAR_H/2}" r="5" fill="{dotcol}"/>')
 parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}" font-size="12" '
-             f'text-anchor="middle">Alexey Konyaev</text>')
+             f'text-anchor="middle">Paulina - Pride of the Empire</text>')
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
 
-parts.append('<g transform="translate(604, 322)">')
+parts.append('<g id="portrait-layer">')
+parts.append('<g transform="translate(568, 247)">')
 parts.append('<g>')
 parts.append('<animateTransform attributeName="transform" type="scale" values="1; 1; 3.5; 3.5; 1" keyTimes="0; 0.7; 0.75; 0.95; 1" dur="10s" repeatCount="indefinite" />')
-parts.append('<g transform="translate(-604, -322)">')
+parts.append('<g transform="translate(-568, -247)">')
 
 for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
@@ -163,8 +164,8 @@ for ry, line in enumerate(rows_txt):
 
 # status bar with a steady blinking cursor
 
-parts.append('</g></g></g>')
-parts.append('<g transform="translate(604, 322)">')
+parts.append('</g></g></g></g>')
+parts.append('<g transform="translate(568, 247)">')
 parts.append('<g>')
 parts.append('<animateTransform attributeName="transform" type="scale" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
 parts.append('<animateTransform attributeName="transform" type="rotate" values="0; 0; 90; 180; 180" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" additive="sum" />')
@@ -177,7 +178,7 @@ status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
 parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size="13">'
-             f'Alexey Konyaev</text>')
+             f'Paulina - Pride of the Empire</text>')
 parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')
