@@ -131,10 +131,6 @@ parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}"
 font_size = CELL_H * 0.86
 
 parts.append('<g id="portrait-layer">')
-parts.append('<g transform="translate(568, 247)">')
-parts.append('<g>')
-parts.append('<animateTransform attributeName="transform" type="scale" values="1; 1; 3.5; 3.5; 1" keyTimes="0; 0.7; 0.75; 0.95; 1" dur="10s" repeatCount="indefinite" />')
-parts.append('<g transform="translate(-568, -247)">')
 
 for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
@@ -164,7 +160,7 @@ for ry, line in enumerate(rows_txt):
 
 # status bar with a steady blinking cursor
 
-parts.append('</g></g></g></g>')
+parts.append('</g>')
 parts.append('<g transform="translate(568, 247)">')
 parts.append('<g>')
 parts.append('<animateTransform attributeName="transform" type="scale" values="0; 0; 1; 0; 0" keyTimes="0; 0.78; 0.84; 0.90; 1" dur="10s" repeatCount="indefinite" />')
