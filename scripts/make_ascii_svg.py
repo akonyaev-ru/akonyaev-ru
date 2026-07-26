@@ -110,6 +110,23 @@ parts.append('''
       --cursor: #c9d1d9;
     }
   }
+
+  @keyframes portrait-zoom {
+    0%, 70%, 100% { transform: scale(1); }
+    75%, 95% { transform: scale(3.5); }
+  }
+  @keyframes sparkle-anim {
+    0%, 78%, 90%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+    84% { opacity: 1; transform: scale(1) rotate(90deg); }
+  }
+  #portrait-layer {
+    transform-origin: 604px 322px;
+    animation: portrait-zoom 10s ease-in-out infinite;
+  }
+  #sparkle {
+    transform-origin: 604px 322px;
+    animation: sparkle-anim 10s ease-in-out infinite;
+  }
 </style>
 ''')
 parts.append('<defs>'
@@ -129,6 +146,7 @@ parts.append(f'<text x="{CANVAS_W/2}" y="{TITLEBAR_H/2 + 4}" fill="{TITLE_TEXT}"
 
 # one <text> per row (single color -> no per-char markup, tiny file)
 font_size = CELL_H * 0.86
+parts.append('<g id="portrait-layer">')
 for ry, line in enumerate(rows_txt):
     y = art_top + ry * CELL_H + CELL_H * 0.74
     row_y = art_top + ry * CELL_H
@@ -156,6 +174,11 @@ for ry, line in enumerate(rows_txt):
     )
 
 # status bar with a steady blinking cursor
+
+parts.append('</g>')
+# Add a sparkle star
+parts.append('<path id="sparkle" d="M604,302 Q604,322 584,322 Q604,322 604,342 Q604,322 624,322 Q604,322 604,302 Z" fill="#fff"/>')
+
 status_line_y = TITLEBAR_H + ART_H + PAD * 0.35
 status_y = status_line_y + 19
 parts.append(f'<line x1="0" y1="{status_line_y:.1f}" x2="{CANVAS_W}" y2="{status_line_y:.1f}" stroke="{FRAME}"/>')
@@ -164,22 +187,6 @@ parts.append(f'<text x="{PAD}" y="{status_y:.1f}" fill="{TITLE_TEXT}" font-size=
 parts.append(f'<rect x="{PAD+196}" y="{status_y-12:.1f}" width="8" height="14" fill="{INK}">'
              f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" '
              f'dur="1s" repeatCount="indefinite"/></rect>')
-
-# eye blink animation (autonomous)
-EYE1_X = PAD + 46 * CELL_W
-EYE2_X = PAD + 56 * CELL_W
-EYE_Y = art_top + 25 * CELL_H
-EYE_W = 7 * CELL_W
-EYE_H = 4 * CELL_H
-
-parts.append(
-    f'<g opacity="0">'
-    f'<animate attributeName="opacity" values="0;0;1;0" keyTimes="0;0.96;0.98;1" '
-    f'dur="5s" repeatCount="indefinite"/>'
-    f'<rect x="{EYE1_X:.1f}" y="{EYE_Y:.1f}" width="{EYE_W}" height="{EYE_H}" fill="{BG}"/>'
-    f'<rect x="{EYE2_X:.1f}" y="{EYE_Y:.1f}" width="{EYE_W}" height="{EYE_H}" fill="{BG}"/>'
-    f'</g>'
-)
 
 parts.append("</svg>")
 svg = "".join(parts)
