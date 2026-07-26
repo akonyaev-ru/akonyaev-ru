@@ -31,7 +31,7 @@ def update_views_json():
         "label": "Profile Views",
         "message": count_str,
         "color": "0e75b6",
-        "style": "for-the-badge",
+        "style": "flat",
         "namedLogo": "github",
         "logoColor": "white"
     }
@@ -58,7 +58,7 @@ def update_stars_json():
         "label": "Total Stars",
         "message": str(total_stars),
         "color": "ffb000",
-        "style": "for-the-badge",
+        "style": "flat",
         "namedLogo": "github",
         "logoColor": "white"
     }
